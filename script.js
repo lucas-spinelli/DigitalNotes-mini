@@ -1,20 +1,60 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const saveButton = document.getElementById('saveButton');
-    const noteContent = document.getElementById('noteContent');
+    loadNotes();
+});
 
-    // Cargar contenido guardado al iniciar la aplicación
-    const savedContent = localStorage.getItem('savedNote');
-    if (savedContent) {
-        noteContent.value = savedContent;
+function addNote() {
+    var noteInput = document.getElementById('note-input').value;
+
+    if (noteInput.trim() !== '') {
+        var notesContainer = document.getElementById('notes-container');
+        var noteElement = document.createElement('div');
+        noteElement.className = 'note';
+        noteElement.innerHTML = `
+            <span>${noteInput}</span>
+            <button class="delete-button" onclick="deleteNote(this)">&#128465;</button>
+        `;
+
+        notesContainer.appendChild(noteElement);
+        document.getElementById('note-input').value = '';
+
+        saveNotes();
+    }
+}
+
+function deleteNote(button) {
+    var note = button.parentElement;
+    note.remove();
+
+    saveNotes();
+}
+
+function saveNotes() {
+    var notesContainer = document.getElementById('notes-container');
+    var notes = [];
+
+    for (var i = 0; i < notesContainer.children.length; i++) {
+        var noteText = notesContainer.children[i].querySelector('span').innerText;
+        notes.push(noteText);
     }
 
-    saveButton.addEventListener('click', function () {
-        const content = noteContent.value;
+    localStorage.setItem('notes', JSON.stringify(notes));
+}
 
-        // Guardar el contenido en localStorage
-        localStorage.setItem('savedNote', content);
+function loadNotes() {
+    var notesContainer = document.getElementById('notes-container');
+    var storedNotes = localStorage.getItem('notes');
 
-        console.log('Contenido guardado:', content);
-    });
-});
-          
+    if (storedNotes) {
+        var notes = JSON.parse(storedNotes);
+
+        notes.forEach(function (noteText) {
+            var noteElement = document.createElement('div');
+            noteElement.className = 'note';
+            noteElement.innerHTML = `
+                <span>${noteText}</span>
+                <button class="delete-button" onclick="deleteNote(this)">&#128465;</button>
+            `;
+            notesContainer.appendChild(noteElement);
+        });
+    }
+                      }
