@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Mini Note</title>
-    
+    <title>Mini Notes</title>
 </head>
 <body>
-    <img src="luckigames.png" width="25" height="25" />Mini Note
-    <div class="blacknote">
-        <div class="toolbar">
-            <button id="saveButton">Guardar</button>
+    <div class="container">
+        <h1>Mini Notes</h1>
+        <div class="notes-container" id="notes-container"></div>
+        <div class="add-note">
+            <textarea id="note-input" placeholder="AÃ±ade una nota..."></textarea>
+            <button onclick="addNote()" style="background-color: #87CEEB;">Guardar</button>
         </div>
-        <textarea id="noteContent" placeholder="Escribe aquÃ­..."></textarea>
     </div>
     <script src="script.js"></script>
 </body>
